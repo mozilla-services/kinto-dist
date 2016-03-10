@@ -13,7 +13,12 @@ def read_file(filename):
 
 README = read_file('README.rst')
 REQUIREMENTS = [
-    "cliquet[monitoring,postgresql]",
+    "SQLAlchemy",
+    "psycopg2>2.5"
+    "zope.sqlalchemy",
+    "raven",
+    "statsd"
+    "newrelic",
     "kinto",
     "kinto-attachment",
     "kinto-changes",
