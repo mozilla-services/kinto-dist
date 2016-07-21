@@ -8,7 +8,31 @@ the version control of each dependency.
 0.8.0 (unreleased)
 ==================
 
-- Nothing changed yet.
+Kinto
+'''''
+
+**kinto 3.3.1 → 3.3.2**: https://github.com/Kinto/kinto/releases/tag/3.3.2
+
+**Bug fixes**
+
+- Fix Redis get_accessible_object implementation (kinto/kinto#725)
+- Fix bug where the resource events of a request targetting two groups/collection
+  from different buckets would be grouped together (kinto/kinto#728)
+
+
+kinto-signer
+''''''''''''
+
+**kinto-signer 0.7.0 → 0.7.1**: https://github.com/Kinto/kinto-signer/releases/tag/0.7.1
+
+**Bug fix**
+
+- Update the `last_modified` value when updating the collection status and signature
+  (kinto/kinto-signer#97)
+- Trigger ``ResourceChanged`` events when the destination collection and records are updated
+  during signing. This allows plugins like ``kinto-changes`` and ``kinto.plugins.history``
+  to catch the changes (kinto/kinto-signer#101)
+
 
 
 0.7.0 (2016-07-19)
