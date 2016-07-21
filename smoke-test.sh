@@ -23,7 +23,7 @@ http --check-status $SERVER/buckets/destination/collections/destination | grep '
 http --check-status $SERVER/buckets/destination/collections/destination/records | grep '"xxyz"'
 
 # kinto-changes
-http --check-status $SERVER/buckets/monitor/collections/changes/records | grep '"source"'
+http --check-status $SERVER/buckets/monitor/collections/changes/records | grep '"destination"'
 
 # kinto-admin
 http --check-status -h $SERVER/admin/
@@ -39,3 +39,7 @@ json2kinto --server $SERVER --addons-server https://addons.mozilla.org/ -S amo-b
 http --check-status $SERVER/blocklist/3/$APPID/46.0/ | grep 'youtube@downloader.yt'
 # Wait for https://github.com/mozilla/addons-server/pull/3053 to be deployed
 # xml-verifier https://blocklist.addons.mozilla.org/blocklist/3/$APPID/46.0/ $SERVER/blocklist/3/$APPID/46.0/
+http --check-status $SERVER/buckets/monitor/collections/changes/records | grep '"addons"'
+http --check-status $SERVER/buckets/monitor/collections/changes/records | grep '"certificates"'
+http --check-status $SERVER/buckets/monitor/collections/changes/records | grep '"plugins"'
+http --check-status $SERVER/buckets/monitor/collections/changes/records | grep '"gfx"'
