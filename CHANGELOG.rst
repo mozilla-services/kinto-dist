@@ -42,14 +42,13 @@ Kinto
 
 **kinto 3.2.2 → 3.3.0**: https://github.com/Kinto/kinto/releases/tag/3.3.0
 
-
-**Protocol**
+**API**
 
 - Add new *experimental* endpoint ``GET /v1/permissions`` to retrieve the list of permissions
   granted on every kind of object (#600).
   Requires setting ``kinto.experimental_permissions_endpoint`` to be set to ``true``.
 
-Protocol is now at version **1.8**. See `API changelog <http://kinto.readthedocs.io/en/latest/api/>`_.
+API is now at version **1.8**. See `API changelog <http://kinto.readthedocs.io/en/latest/api/>`_.
 
 **Bug fixes**
 
@@ -78,7 +77,7 @@ Kinto-attachment
 
 0.6.3 (2016-07-21)
 ==================
- 
+
 - Take the correct Kinto 3.2.4 version.
 
 
@@ -156,12 +155,12 @@ Kinto
 
 **kinto 2.1.2 → 3.2.0**: https://github.com/Kinto/kinto/releases/tag/3.2.0
 
-**Protocol**
+**API**
 
 - Added the ``GET /contribute.json`` endpoint for open-source information (fixes #607)
 - Allow record IDs to be any string instead of just UUIDs (fixes #655).
 
-Protocol is now at version **1.7**. See `API changelog <http://kinto.readthedocs.io/en/latest/api/>`_.
+API is now at version **1.7**. See `API changelog <http://kinto.readthedocs.io/en/latest/api/>`_.
 
 **New features**
 
