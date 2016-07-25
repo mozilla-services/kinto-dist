@@ -23,16 +23,19 @@ Kinto
 kinto-signer
 ''''''''''''
 
-**kinto-signer 0.7.0 → 0.7.1**: https://github.com/Kinto/kinto-signer/releases/tag/0.7.1
+**kinto-signer 0.7.0 → 0.7.2**: https://github.com/Kinto/kinto-signer/releases/tag/0.7.2
 
-**Bug fix**
+**Bug fixes**
 
 - Update the `last_modified` value when updating the collection status and signature
   (kinto/kinto-signer#97)
 - Trigger ``ResourceChanged`` events when the destination collection and records are updated
   during signing. This allows plugins like ``kinto-changes`` and ``kinto.plugins.history``
   to catch the changes (kinto/kinto-signer#101)
-
+- Provide the ``old`` value on destination records updates (#104)
+- Send ``create`` event when destination record does not exist yet.
+- Events sent by kinto-signer for created/updated/deleted objects in destination now show
+  user_id as ``plugin:kinto-signer``
 
 
 0.7.0 (2016-07-19)
