@@ -45,6 +45,7 @@ update-kinto-admin:
 	rm -fr kinto_admin/static/*
 	npm install -g kinto-admin
 	kinto-admin build -d kinto_admin/static/
+	sed -i 's/t\.c=n,t\.p=".*"/t\.c=n,t\.p="\/v1\/admin\/"/g' kinto_admin/static/bundle.js
 	sed -i "s/ version=\".*\"/ version=\"$(shell kinto-admin --version)\"/g" kinto_admin/__init__.py
 
 need-kinto-running:
