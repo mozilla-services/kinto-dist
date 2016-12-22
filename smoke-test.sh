@@ -47,10 +47,15 @@ http --check-status $SERVER/preview/3/$APPID/46.0/ | grep 'youtube'
 http --check-status $SERVER/blocklist/3/$APPID/46.0/ | grep 'youtube'
 xml-verifier https://blocklist.addons.mozilla.org/blocklist/3/$APPID/46.0/ $SERVER/blocklist/3/$APPID/46.0/
 
+# Expected monitored changes
+http --check-status $SERVER/buckets/monitor/collections/changes/records | grep '"blocklists-preview"'
 http --check-status $SERVER/buckets/monitor/collections/changes/records | grep '"addons"'
 http --check-status $SERVER/buckets/monitor/collections/changes/records | grep '"certificates"'
 http --check-status $SERVER/buckets/monitor/collections/changes/records | grep '"plugins"'
 http --check-status $SERVER/buckets/monitor/collections/changes/records | grep '"gfx"'
+# Empty history for preview and signed.
+http --check-status GET $SERVER/buckets/blocklists/history --auth $AUTH | grep '[]'
+http --check-status GET $SERVER/buckets/blocklists-preview/history --auth $AUTH | grep '[]'
 
 curl -O https://raw.githubusercontent.com/Kinto/kinto-signer/master/scripts/validate_signature.py
 python validate_signature.py --server="http://localhost:8888/v1" --bucket=blocklists --collection=addons
