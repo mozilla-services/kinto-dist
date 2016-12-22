@@ -12,6 +12,9 @@ REVIEWER_AUTH="${REVIEWER_AUTH:-reviewer:pass}"
 
 http --check-status PUT $SERVER/buckets/blog --auth $AUTH
 http --check-status PUT $SERVER/buckets/blog/collections/articles --auth $AUTH
+# Create preview and destination buckets explicitly (see Kinto/kinto-signer#155)
+http --check-status PUT $SERVER/buckets/blocklists --auth $AUTH
+http --check-status PUT $SERVER/buckets/blocklists-preview --auth $AUTH
 
 http --check-status $SERVER/__heartbeat__
 
