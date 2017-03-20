@@ -4,6 +4,22 @@ CHANGELOG
 This document describes changes between each past release as well as
 the version control of each dependency.
 
+1.13.2 (2017-03-20)
+===================
+
+kinto-signer
+''''''''''''
+
+**kinto-signer 1.2.0 → 1.3.1**: https://github.com/Kinto/kinto-signer/releases/tag/1.3.1
+
+**Bug fixes**
+
+- Allow ``canonical_json`` to work with iterators. (Kinto/kinto-signer#167)
+- Fixed inconsistencies in ``ResourceChanged`` produced by Kinto signer (Kinto/kinto-signer#169)
+- Update e2e.py to be robust against kinto_client returning an iterator in Python 3. (Kinto/kinto-signer#165)
+
+
+
 1.13.1 (2017-02-24)
 ===================
 

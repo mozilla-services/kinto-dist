@@ -21,7 +21,7 @@ REQUIREMENTS = [
     "kinto-amo>=0.3.0,<0.4",
     "kinto-changes>=0.5,<0.6",
     "kinto-emailer>=0.3.0,<0.4",
-    "kinto-signer>=1.2.0,<1.3.0",
+    "kinto-signer>=1.3.0,<1.4.0",
     "kinto-fxa>=2.3,<3.0",
     "kinto-ldap>=0.3.0,<0.4",
     "amo2kinto>=1.7,<1.8",
@@ -31,7 +31,7 @@ ENTRY_POINTS = {}
 DEPENDENCY_LINKS = []
 
 setup(name='kinto-dist',
-      version='1.14.0.dev0',
+      version='1.13.2',
       description='Kinto Distribution',
       long_description=README + "\n\n" + CHANGELOG,
       license='Apache License (2.0)',
