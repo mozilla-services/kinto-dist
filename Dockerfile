@@ -8,6 +8,8 @@ RUN groupadd -g 9000 kinto && \
 COPY . /app
 WORKDIR /app
 
+ENV KINTO_INI /etc/kinto.ini
+
 RUN buildDeps=' \
     git \
     gcc \
@@ -34,4 +36,4 @@ RUN buildDeps=' \
 USER kinto
 
 # Run uwsgi by default
-CMD ["uwsgi", "--ini", "/etc/kinto.ini"]
+CMD ["uwsgi", "--ini", "${KINTO_INI}"]
