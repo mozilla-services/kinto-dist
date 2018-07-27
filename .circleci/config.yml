@@ -1,24 +1,23 @@
 # These environment variables must be set in CircleCI UI
 #
 # DOCKERHUB_REPO - docker hub repo, format: <username>/<repo>
-# DOCKER_EMAIL   - login info for docker hub
 # DOCKER_USER
 # DOCKER_PASS
 #
-
 version: 2
 jobs:
-  build:
+  build_test_publish:
     docker:
       - image: ubuntu:16.04
     working_directory: ~/kinto-dist
-    steps:
-      - checkout
 
+    steps:
       - run:
           name: Install essential packages
           command: |
             apt-get update && apt-get install -y ca-certificates curl
+
+      - checkout
 
       - run:
           name: Install Docker client
@@ -75,11 +74,18 @@ jobs:
       - run:
           name: Push to Dockerhub
           command: |
-            # set DOCKER_DEPLOY=true in Circle UI to push to Dockerhub
-            DOCKER_DEPLOY="${DOCKER_DEPLOY:-false}"
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               ./bin/deploy-dockerhub.sh latest
             fi
             if [ -n "${CIRCLE_TAG}" ]; then
               ./bin/deploy-dockerhub.sh "$CIRCLE_TAG"
             fi
+
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build_test_publish:
+          filters:
+            tags:
+              only: /.*/

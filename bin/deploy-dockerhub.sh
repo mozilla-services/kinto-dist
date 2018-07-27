@@ -22,14 +22,17 @@ function retry() {
 }
 
 # configure docker creds
-retry 3  echo "$DOCKER_PASSWORD" | docker login -u="$DOCKER_USERNAME" --password-stdin
+retry 3  echo "$DOCKER_PASS" | docker login -u="$DOCKER_USER" --password-stdin
+
+docker images
 
 # docker tag and push git branch to dockerhub
 if [ -n "$1" ]; then
-    [ "$1" == master ] && TAG=latest || TAG="$1"
-    docker tag kinto-dist "$DOCKERHUB_REPO:$TAG" ||
+    TAG="$1"
+    echo "Tag and push ${DOCKERHUB_REPO}:${TAG} to Dockerhub"
+    docker tag kinto:build "$DOCKERHUB_REPO:$TAG" ||
         (echo "Couldn't tag kinto-dist as $DOCKERHUB_REPO:$TAG" && false)
     retry 3 docker push "$DOCKERHUB_REPO:$TAG" ||
         (echo "Couldn't push $DOCKERHUB_REPO:$TAG" && false)
-    echo "Pushed $DOCKERHUB_REPO:$TAG"
+    echo "Done."
 fi
