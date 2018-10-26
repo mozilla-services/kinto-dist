@@ -135,6 +135,19 @@ For example:
 
     $ hashin -r requirements/default.txt requests
 
+To upgrade constraints:
+
+.. code-block:: shell
+
+    $ pip install piprot
+    $ piprot -o requirements/constraints.txt
+    kinto-http (9.1.2) is 180 days out of date. Latest is 10.0.0
+    Your requirements are 2393 days out of date
+
+.. code-block:: shell
+
+    $ hashin -r requirements/constraints.txt kinto-http boto3 botocore ...
+
 To test that this installs run:
 
 .. code-block:: shell
