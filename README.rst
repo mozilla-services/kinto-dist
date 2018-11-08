@@ -230,7 +230,6 @@ Then:
    $ git checkout master
    $ git pull
    $ release
-   $ postrelease
 
 The Mozilla remote-settings CI will immediately deploy the
 newly-tagged version to remote-settings stage and run the QA tests
@@ -243,23 +242,12 @@ the ReST-style section headings to Markdown-style ``##`` headings.
 
 Then:
 
-The "Back to development" commit cannot be pushed to master because we don't allow pushes to master.
-
-You can just throw away the commit (``git reset --hard HEAD^``) but
-the next person to touch the changelog will have to introduce a new
-heading for the next version. Another option is to push the commit and
-have it be reviewed:
-
 .. code-block:: bash
 
-   $ git checkout -b start-X.Y.Z
-   $ git push origin start-X.Y.Z
-   $ git checkout master
-   $ git reset --hard origin/master
+   $ git checkout -b prepare-X.(Y + 1).Z
+   $ postrelease
 
-Then:
-
-- Open another PR
+- Open another PR for this back to development commit
 
 Then:
 
