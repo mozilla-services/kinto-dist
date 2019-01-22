@@ -19,7 +19,7 @@ services:
     image: kinto:autograph
 
   megaphone:
-    image: mozilla/megaphone
+    image: mozilla/megaphone:latest
     depends_on:
       - mysql
     environment:
