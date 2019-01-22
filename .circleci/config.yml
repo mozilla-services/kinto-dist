@@ -33,8 +33,12 @@ jobs:
             "$CIRCLE_BUILD_URL" > version.json
 
       - run:
+          name: Make sure images are fresh
+          command: docker-compose pull
+
+      - run:
           name: Build
-          command: docker-compose build --pull
+          command: docker-compose build
 
       - run:
           name: Start once
