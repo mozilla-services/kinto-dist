@@ -34,7 +34,7 @@ jobs:
 
       - run:
           name: Build
-          command: docker-compose build
+          command: docker-compose build --pull
 
       - run:
           name: Start once
