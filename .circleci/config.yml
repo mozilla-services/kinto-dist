@@ -33,6 +33,12 @@ jobs:
             "$CIRCLE_BUILD_URL" > version.json
 
       - run:
+          # FIXME: this is a temporary workaround because we want
+          # logging/bugfix from
+          # https://github.com/mozilla-services/megaphone/pull/68
+          # which hasn't been made into a tagged release yet.  We
+          # should tear this out, probably around the same time we
+          # address #499/#500.
           name: Make sure megaphone image is fresh
           command: docker-compose pull megaphone
 
