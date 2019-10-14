@@ -16,51 +16,37 @@ with a set of known working dependencies and then ship that to DockerHub.**
 Test Locally
 ------------
 
-You need Docker and ``docker-compose``. The simplest way to test that
-all is working as expected is to run:
+You need Docker and ``docker-compose``, plus the following Python packages installed:
+
+.. code-block:: shell
+
+    pip install --user httpie kinto-wizard
+
+The simplest way to test that all is working as expected is to run:
 
 .. code-block:: shell
 
     $ docker-compose run web migrate  # only needed once
-    $ docker-compose run tests
+    $ docker-compose up -d web
+    $ ./tests/smoke-test.sh
 
 .. note:: The ``run web migrate`` command is only needed once, to prime the
           PostgreSQL server. You can flush
           all the Kinto data in your local persistent PostgreSQL with
-          ``curl -XPOST http://localhost:8888/v1/__flush__``
+          ``http POST :8888/v1/__flush__``
 
-That will start ``redis``, ``postgresql``, ``autograph`` and Kinto (at ``web:8888``)
-and lastly the ``tests`` container that primarily
-uses ``curl http://web:8888/v1`` to test various things.
+That will start ``redis``, ``postgresql``, ``autograph`` and Kinto (at ``localhost:8888``).
 
 When you're done running the above command, the individual servers will still
-be running and occupying those ports on your local network. When you're
+be running and occupying the 8888 port on your local network. When you're
 finished, run:
 
 .. code-block:: shell
 
     $ docker-compose stop
 
-Debugging Locally (simple)
---------------------------
-
-The simplest form of debugging is to start the Kinto server (with ``uwsgi``,
-which is default) in one terminal first:
-
-.. code-block:: shell
-
-    $ docker-compose up web
-
-Now, in a separate terminal, first check that you can reach the Kinto
-server:
-
-.. code-block:: shell
-
-    $ curl http://localhost:8888/v1/__heartbeat__
-    $ docker-compose run tests
-
-Debugging Locally (advanced)
-----------------------------
+Debugging Locally
+-----------------
 
 Suppose you want to play with running the Kinto server, then go into
 a ``bash`` session like this:
@@ -80,24 +66,12 @@ manually with ``kinto start``:
 
     $ kinto start --ini config/example.ini
 
-Another thing you might want to debug is the ``tests`` container that does
-the ``curl`` commands against the Kinto server. But before you do that,
-you probably want to start the services:
+Now, in a separate terminal, first check that you can reach the Kinto
+server:
 
 .. code-block:: shell
 
-    $ docker-compose up web
-
-.. code-block:: shell
-
-    $ docker-compose run tests bash
-
-Now, from that ``bash`` session you can reach the other services like:
-
-.. code-block:: shell
-
-    $ curl http://autograph:8000/__heartbeat__
-    $ curl http://web:8000/v1/__heartbeat__
+    $ curl http://localhost:8888/v1/__heartbeat__
 
 
 Upgrade Things

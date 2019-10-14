@@ -59,18 +59,3 @@ services:
     volumes:
       - $PWD:/app
     command: uwsgistart
-
-  tests:
-    build:
-      context: .
-      dockerfile: tests/Dockerfile
-    image: kinto:tests
-    depends_on:
-      - web
-    environment:
-      - SERVER=http://web:8888/v1
-      - MAILFILESERVER=http://web:9999
-    volumes:
-      - $PWD/tests:/app
-      - $PWD/mail:/app/mail/
-    command: start

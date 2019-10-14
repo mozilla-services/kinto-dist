@@ -27,12 +27,7 @@ WORKDIR /app
 # Drop down to unprivileged user
 RUN chown -R 10001:10001 /app
 
-# Make sure the kinto user can write into the mail directory for
-# when it debugs email sending.
-#RUN chown kinto: /app/mail
-
 USER 10001
-
 
 # Run uwsgi by default
 ENTRYPOINT ["/bin/bash", "/app/bin/run.sh"]

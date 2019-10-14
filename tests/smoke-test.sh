@@ -12,6 +12,13 @@ AUTH="${AUTH:-user:pass}"
 EDITOR_AUTH="${EDITOR_AUTH:-editor:pass}"
 REVIEWER_AUTH="${REVIEWER_AUTH:-reviewer:pass}"
 
+# Make sure the server is running.
+wget -q --tries=10 --retry-connrefused --waitretry=1 -O /dev/null $SERVER || (echo "Can't reach $SERVER" && exit 1)
+http --check-status $SERVER/__heartbeat__
+
+# Removes everything.
+http POST "$SERVER/__flush__"
+
 # Create Kinto accounts
 echo '{"data": {"password": "pass"}}' | http --check-status PUT $SERVER/accounts/user
 echo '{"data": {"password": "pass"}}' | http --check-status PUT $SERVER/accounts/editor

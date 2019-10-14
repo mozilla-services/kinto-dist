@@ -17,7 +17,8 @@ jobs:
           name: Install essential packages
           command: |
             sudo apt-get update
-            sudo apt-get install -y ca-certificates curl git openssh-client
+            sudo apt-get install -y ca-certificates curl git openssh-client wget python-dev python-pip httpie
+            pip install --user kinto-wizard
 
       - checkout
 
@@ -58,12 +59,16 @@ jobs:
           command: |
             # Megaphone can take an arbitrary amount of time to start
             # up (probably waiting for mysql to accept connections)
-            x=0; until docker-compose run tests http --check-status "http://megaphone:8000/__heartbeat__" || [ $x -gt 10 ]; do date; sleep 1; echo $((x += 1)); done; if [ $x -gt 10 ]; then docker logs kintodist_megaphone_1; fi
+            x=0; until wget -q --tries=10 --retry-connrefused --waitretry=1 -O /dev/null "http://megaphone:8000/__heartbeat__" || [ $x -gt 10 ]; do date; sleep 1; echo $((x += 1)); done; if [ $x -gt 10 ]; then docker logs kintodist_megaphone_1; fi
+
+      - run:
+          name: Run main container
+          command: |
+            docker-compose up -d web
 
       - run:
           name: Tests
-          command: |
-              docker-compose run tests start
+          command: ./tests/smoke-test.sh
 
       - run:
           name: Push to Dockerhub
