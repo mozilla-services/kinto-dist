@@ -4,6 +4,8 @@
 # Show executed commands
 set -e -x
 
+alias python='/usr/bin/python3.7'
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 SERVER="${SERVER:-http://localhost:8888/v1}"
 

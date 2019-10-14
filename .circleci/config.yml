@@ -18,8 +18,7 @@ jobs:
           name: Install essential packages
           command: |
             sudo apt-get update
-            sudo apt-get install -y ca-certificates curl git openssh-client wget python-dev python-pip httpie
-            sudo pip install kinto-http kinto-wizard
+            sudo apt-get install -y ca-certificates curl git openssh-client wget
 
       - checkout
 
@@ -71,6 +70,12 @@ jobs:
           name: Tests
           working_directory: ~/kinto-dist/tests
           command: |
+            sudo add-apt-repository ppa:deadsnakes/ppa
+            sudo apt-get update
+            sudo apt-get install -y python3.7 python3-pip
+            python3 -m pip install --user --upgrade pip
+            python3 -m pip install --user httpie kinto-http kinto-wizard
+
             ./smoke-test.sh
 
       - run:
