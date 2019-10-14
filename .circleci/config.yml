@@ -69,8 +69,9 @@ jobs:
 
       - run:
           name: Tests
+          working_directory: ~/kinto-dist/tests
           command: |
-            ./tests/smoke-test.sh
+            ./smoke-test.sh
 
       - run:
           name: Push to Dockerhub

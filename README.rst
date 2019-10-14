@@ -28,7 +28,8 @@ The simplest way to test that all is working as expected is to run:
 
     $ docker-compose run web migrate  # only needed once
     $ docker-compose up -d web
-    $ ./tests/smoke-test.sh
+    $ cd tests/
+    $ ./smoke-test.sh
 
 .. note:: The ``run web migrate`` command is only needed once, to prime the
           PostgreSQL server. You can flush
