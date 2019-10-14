@@ -9,6 +9,7 @@ jobs:
   build_test_publish:
     machine:
       docker_layer_caching: true
+      image: ubuntu-1604:201903-01
 
     working_directory: ~/kinto-dist
 
@@ -18,7 +19,7 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get install -y ca-certificates curl git openssh-client wget python-dev python-pip httpie
-            pip install --user kinto-wizard
+            sudo pip install kinto-http kinto-wizard
 
       - checkout
 
@@ -68,7 +69,8 @@ jobs:
 
       - run:
           name: Tests
-          command: ./tests/smoke-test.sh
+          command: |
+            ./tests/smoke-test.sh
 
       - run:
           name: Push to Dockerhub
