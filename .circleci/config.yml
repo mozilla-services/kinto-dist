@@ -43,6 +43,12 @@ jobs:
             docker-compose run web sleep 5
 
       - run:
+          name: Trying to debug
+          command: |
+            docker-compose ps
+            docker-compose logs
+
+      - run:
           name: Migrate
           command: |
             mkdir mail
@@ -99,6 +105,18 @@ jobs:
       - run:
           name: Build
           command: docker-compose build
+      - run:
+          name: Start once
+          command: |
+            # This will start all the dependencies first
+            docker-compose run web sleep 5
+
+      - run:
+          name: Trying to debug
+          command: |
+            docker-compose ps
+            docker-compose logs
+
       - run:
           name: Setup env and run tests
           command: |
