@@ -3,6 +3,8 @@ version: '3'
 services:
   db:
     image: postgres:9
+    environment:
+      POSTGRES_PASSWORD: unused
     healthcheck:
       test: ["CMD", "pg_isready"]
       interval: 1s
