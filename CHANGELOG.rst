@@ -5,6 +5,12 @@ This document describes changes between each past release as well as
 the version control of each dependency.
 
 
+22.0.0 (unreleased)
+===================
+
+- Nothing changed yet.
+
+
 21.1.0 (2020-09-23)
 ===================
 
