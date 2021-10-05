@@ -104,7 +104,7 @@ jobs:
           name: Start once
           command: |
             # This will start all the dependencies first
-            docker-compose run web sleep 10
+            docker-compose --log-level DEBUG run web /wait
 
       - run:
           name: Setup env and run tests

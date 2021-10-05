@@ -17,6 +17,10 @@ COPY requirements.txt .
 COPY bin/docker-install.sh .
 RUN ./docker-install.sh
 
+# Add a wait command for tests.
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
+RUN chmod +x /wait
+
 COPY . /app
 
 # Switch back to home directory
