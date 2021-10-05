@@ -103,6 +103,7 @@ jobs:
       - run:
           name: Start once
           command: |
+            docker-compose --log-level DEBUG up -d db
             # This will start all the dependencies first
             docker-compose --log-level DEBUG run web /wait
 
