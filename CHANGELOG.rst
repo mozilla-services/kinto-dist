@@ -5,6 +5,12 @@ This document describes changes between each past release as well as
 the version control of each dependency.
 
 
+25.1.0 (unreleased)
+===================
+
+- Nothing changed yet.
+
+
 25.0.0 (2021-11-15)
 ===================
 
