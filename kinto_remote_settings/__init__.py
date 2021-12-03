@@ -1,8 +1,7 @@
-import pkg_resources
-
-# Note: we can remove this and replace it with a better package name
-# when doing https://github.com/mozilla-services/kinto-dist/issues/1928
-__version__ = pkg_resources.get_distribution("kinto-dist").version
+# TODO: This hardcoded version is a temporary fix to provide a version proprety
+# as server metadata. This value will eventually be replaced by a version
+# provided when we install `kinto_remote_settings` as a package.
+__version__ = "27.0.0"
 
 
 def includeme(config):
