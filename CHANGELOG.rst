@@ -4,6 +4,20 @@ CHANGELOG
 This document describes changes between each past release as well as
 the version control of each dependency.
 
+26.1.0 (unreleased)
+===================
+
+kinto-attachment
+----------------
+
+**kinto-attachment 6.1.0 → 6.2.0**: https://github.com/Kinto/kinto-attachment/releases/tag/6.2.0
+
+**New features**
+
+- ``base_url`` field in server's capabilities will be added a trailing slash (``/``)
+  if missing.
+
+
 26.0.0 (2021-12-01)
 ===================
 
