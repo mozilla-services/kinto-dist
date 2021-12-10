@@ -147,14 +147,9 @@ Settings
 ========
 
 
-To install this plugin in a Kinto server, a few configuration variables need
-to be set.
-
-Here is an example of what a configuration could look like:
+The main setting configures the list of buckets/collections where multi-signoff will be enabled:
 
 .. code-block:: ini
-
-  kinto.includes = kinto_signer
 
   kinto.signer.resources =
       /buckets/source                         -> /buckets/destination
@@ -174,13 +169,14 @@ Here is an example of what a configuration could look like:
 +---------------------------------+--------------------------------------------------------------------------+
 | kinto.signer.signer_backend     | The python dotted location to the signer to use. By default, a local     |
 |                                 | ECDSA signer will be used. Choices are either                            |
-|                                 | ``kinto.signer.signer.local_ecdsa`` or ``kinto.signer.signer.autograph`` |
+|                                 | ``kinto_remote_settings.signer.backends.local_ecdsa`` or                 |
+|                                 | ``kinto_remote_settings.signer.backends.autograph``                      |
 |                                 | Have a look at the sections below for more information.                  |
 +---------------------------------+--------------------------------------------------------------------------+
 | kinto.signer.allow_floats       | Allow float values in records (default: ``False``).                      |
 |                                 | Toggling this setting to ``True`` can lead to signature verification     |
 |                                 | errors in clients.                                                       |
-|                                 | See ``kinto_signer.listeners.prevent_float_value``                       |
+|                                 | See ``kinto_remote_settings.signer.listeners.prevent_float_value``       |
 +---------------------------------+--------------------------------------------------------------------------+
 
 Configuration for the (default) ECDSA local signer
@@ -289,7 +285,7 @@ Settings can be prefixed with bucket id:
 
 .. code-block:: ini
 
-    kinto.signer.signer_backend = kinto_signer.signer.autograph
+    kinto.signer.signer_backend = kinto_remote_settings.signer.backends.autograph
     kinto.signer.autograph.server_url = http://172.11.20.1:8888
 
     kinto.signer.<bucket-id>.autograph.hawk_id = bob
@@ -300,7 +296,7 @@ Or prefixed with bucket and collection:
 
 .. code-block:: ini
 
-    kinto.signer.<bucket-id>.<collection-id>.signer_backend = kinto_signer.signer.local_ecdsa
+    kinto.signer.<bucket-id>.<collection-id>.signer_backend = kinto_remote_settings.signer.backends.local_ecdsa
     kinto.signer.<bucket-id>.<collection-id>.ecdsa.private_key = /path/to/private.pem
     kinto.signer.<bucket-id>.<collection-id>.ecdsa.public_key = /path/to/public.pem
 
@@ -446,10 +442,10 @@ Events have the following attributes:
 
 The following events are thrown:
 
-* ``kinto_signer.events.ReviewRequested``
-* ``kinto_signer.events.ReviewRejected``
-* ``kinto_signer.events.ReviewApproved``
-* ``kinto_signer.events.ReviewCanceled`` (when source is rolledback)
+* ``kinto_remote_settings.signer.events.ReviewRequested``
+* ``kinto_remote_settings.signer.events.ReviewRejected``
+* ``kinto_remote_settings.signer.events.ReviewApproved``
+* ``kinto_remote_settings.signer.events.ReviewCanceled`` (when source is rolledback)
 
 .. important::
 
@@ -499,4 +495,4 @@ Generating a keypair
 
 To generate a new keypair, you can use the following command::
 
-  $ python -m kinto_signer.generate_keypair private.pem public.pem
+  $ python -m kinto_remote_settings.signer.generate_keypair private.pem public.pem
