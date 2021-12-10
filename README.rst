@@ -208,13 +208,3 @@ First:
     and immediately deploy it to Remote Settings STAGE
     Integration tests will be executed.
     Results are reported in the Mozilla ``#kinto-standup`` Slack channel.
-
-
-Known Instances
----------------
-
-To know all places where we use ``kinto-dist`` we maintain a list of in a
-machine readable file ``Kinto-Instances.yml``.
-
-Use that to update URLs of instances of ``kinto-dist``. It can be leveraged
-for automation (e.g. places to upgrade) and auditing.
