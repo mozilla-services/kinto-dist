@@ -233,10 +233,6 @@ makes sure that:
 | kinto.signer.to_review_enabled   | ``false``     | If ``true``, the collection ``status`` must be set to ``to-review`` by a |
 |                                  |               | different user before being set to ``to-sign``.                          |
 +----------------------------------+---------------+--------------------------------------------------------------------------+
-| kinto.signer.group_check_enabled | ``false``     | If ``true``, the user setting to ``to-review`` must belong to the        |
-|                                  |               | ``editors`` group in the source bucket, and the one setting to           |
-|                                  |               | ``to-sign`` must belong to ``reviewers``.                                |
-+----------------------------------+---------------+--------------------------------------------------------------------------+
 | kinto.signer.editors_group       | ``editors``   | The group id that is required for changing status to ``to-review``       |
 +----------------------------------+---------------+--------------------------------------------------------------------------+
 | kinto.signer.reviewers_group     | ``reviewers`` | The group id that is required for changing status to ``to-sign``         |
@@ -258,9 +254,7 @@ For example:
 
 .. code-block:: ini
 
-    kinto.signer.staging.group_check_enabled = true
     kinto.signer.staging.to_review_enabled = true
-    kinto.signer.staging.certificates.group_check_enabled = false
     kinto.signer.staging.certificates.to_review_enabled = false
     kinto.signer.staging.certificates.reviewers_group = certificates-reviewers
 
