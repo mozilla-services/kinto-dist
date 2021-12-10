@@ -2,6 +2,7 @@ import copy
 import functools
 import re
 
+from .. import __version__
 from .events import ReviewApproved, ReviewRejected, ReviewRequested
 
 DEFAULT_SIGNER = "kinto_remote_settings.signer.backends.local_ecdsa"
@@ -95,7 +96,6 @@ def includeme(config):
         "reviewers_group": "reviewers",
         "editors_group": "editors",
         "to_review_enabled": False,
-        "group_check_enabled": False,
     }
     global_settings = {}
     for setting in listeners.REVIEW_SETTINGS:
@@ -168,6 +168,7 @@ def includeme(config):
         "signer",
         message,
         docs,
+        version=__version__,
         resources=exposed_resources,
         **global_settings,
     )

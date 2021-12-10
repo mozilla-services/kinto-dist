@@ -4,6 +4,31 @@ CHANGELOG
 This document describes changes between each past release as well as
 the version control of each dependency.
 
+
+27.0.0 (unreleased)
+===================
+
+**Breaking Changes**
+
+- The ``kinto.signer.group_check_enabled`` setting is now always ``true``, and
+  won't be read from configuration anymore.
+
+**Bug fixes**
+
+- Restore ``"version"`` fields in ``signer`` and ``changes`` capabilities metadata
+
+
+kinto-attachment
+----------------
+
+**kinto-attachment 6.1.0 → 6.2.0**: https://github.com/Kinto/kinto-attachment/releases/tag/6.2.0
+
+**New features**
+
+- ``base_url`` field in server's capabilities will be added a trailing slash (``/``)
+  if missing.
+
+
 26.0.0 (2021-12-01)
 ===================
 
