@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.3
 
-FROM python:3.9-slim-bullseye@sha256:daf74cd7c4a6d420c2979b1fc74a3000489b69a330cbc15d0ab7b4721697945a as compile
+FROM python:3.10.1-slim-bullseye@sha256:dd3016f846b8f88d8f6c28b43f1da899f07259121aff403091e6f89a703c3d36 as compile
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     # Needed to download Rust
@@ -30,7 +30,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 RUN uwsgi --build-plugin https://github.com/Datadog/uwsgi-dogstatsd
 
 
-FROM python:3.9-slim-bullseye@sha256:daf74cd7c4a6d420c2979b1fc74a3000489b69a330cbc15d0ab7b4721697945a AS build
+FROM python:3.10.1-slim-bullseye@sha256:dd3016f846b8f88d8f6c28b43f1da899f07259121aff403091e6f89a703c3d36 AS build
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     # Needed for UWSGI 
