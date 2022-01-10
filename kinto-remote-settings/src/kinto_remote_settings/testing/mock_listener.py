@@ -1,7 +1,7 @@
 """
 This module provides a mock for signer tests. Normally a file like this would
 be defined in a tests directory separate from this src directory, but to
-provide this module, kinto expects to find it in a package found in
+provide this module, Kinto expects to find it in a package found in
 `site-packages`.
 """
 

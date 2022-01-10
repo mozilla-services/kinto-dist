@@ -4,7 +4,7 @@ from unittest import mock
 
 from kinto.core import events as kinto_events
 from kinto_remote_settings.signer import events as signer_events
-from kinto_remote_settings.signer.private.mock_listener import listener
+from kinto_remote_settings.testing.mock_listener import listener
 from pyramid.config import Configurator
 
 from .support import BaseWebTest
@@ -36,7 +36,7 @@ class ResourceEventsTest(BaseWebTest, unittest.TestCase):
         settings["event_listeners"] = "ks"
         settings[
             "event_listeners.ks.use"
-        ] = "kinto_remote_settings.signer.private.mock_listener"
+        ] = "kinto_remote_settings.testing.mock_listener"
         return settings
 
     def setUp(self):
