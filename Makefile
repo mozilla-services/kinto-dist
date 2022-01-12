@@ -32,7 +32,7 @@ lint: $(INSTALL_STAMP)
 test: $(INSTALL_STAMP)
 	PYTHONPATH=. $(VENV)/bin/pytest kinto-remote-settings
 
-integration-test: $(INSTALL_STAMP)
+integration-test:
 	docker-compose run web migrate
 	docker-compose run tests
 
