@@ -7,6 +7,7 @@ from urllib.parse import urljoin
 import pytest
 import requests
 from kinto_http import AsyncClient, KintoException
+from kinto_http.patch_type import JSONPatch
 from kinto_remote_settings.signer.backends.local_ecdsa import ECDSASigner
 from kinto_remote_settings.signer.serializer import canonical_json
 
@@ -24,10 +25,14 @@ async def test_history_plugin(
     make_client: Callable[[Tuple[str, str]], AsyncClient], auth: Tuple[str, str]
 ):
     client = make_client(auth)
+    client_id = (await client.server_info())["user"]["id"]
     await client.create_bucket(id="main-workspace", if_not_exists=True)
+    await client.purge_history(bucket="main-workspace")
     await client.create_collection(
         id="product-integrity", bucket="main-workspace", if_not_exists=True
     )
+    data = JSONPatch([{"op": "add", "path": "/data/members/0", "value": client_id}])
+    await client.patch_group(id="product-integrity-editors", changes=data)
     await client.create_record(data={"hola": "mundo"})
     await client.patch_collection(data={"status": "to-review"})
 
@@ -133,7 +138,10 @@ async def test_attachment_plugin_new_record(
 
     with open("kinto-logo.svg", "rb") as attachment:
         assert requests.post(
-            f"{server}/buckets/main-workspace/collections/product-integrity/records/logo/attachment",
+            urljoin(
+                server,
+                "/buckets/main-workspace/collections/product-integrity/records/logo/attachment",
+            ),
             files={"attachment": attachment},
             auth=client.session.auth,
         ), "Issue creating a new record with an attachment"
@@ -167,7 +175,10 @@ async def test_attachment_plugin_existing_record(
 
     with open("kinto-logo.svg", "rb") as attachment:
         assert requests.post(
-            f"{server}/buckets/main-workspace/collections/product-integrity/records/logo/attachment",
+            urljoin(
+                server,
+                "/buckets/main-workspace/collections/product-integrity/records/logo/attachment",
+            ),
             files={"attachment": attachment},
             auth=client.session.auth,
         ), "Issue updating an existing record to include an attachment"
@@ -235,13 +246,15 @@ async def test_signer_plugin_full_workflow(
         resource.get("editors_group") or signer_capabilities["editors_group"]
     )
     editors_group = editors_group.format(collection_id=source_collection)
-    await client.patch_group(id=editors_group, data={"members": [editor_id]})
+    data = JSONPatch([{"op": "add", "path": "/data/members/0", "value": editor_id}])
+    await client.patch_group(id=editors_group, changes=data)
 
     reviewers_group = (
         resource.get("reviewers_group") or signer_capabilities["reviewers_group"]
     )
     reviewers_group = reviewers_group.format(collection_id=source_collection)
-    await client.patch_group(id=reviewers_group, data={"members": [reviewer_id]})
+    data = JSONPatch([{"op": "add", "path": "/data/members/0", "value": reviewer_id}])
+    await client.patch_group(id=reviewers_group, changes=data)
 
     dest_col = resource["destination"].get("collection") or source_collection
     dest_client = AsyncClient(
@@ -377,9 +390,8 @@ async def test_signer_plugin_refresh(
     reviewer_id = (await reviewer_client.server_info())["user"]["id"]
     await client.create_bucket(id="main-workspace", if_not_exists=True)
     await client.create_collection(id=cid, bucket="main-workspace", if_not_exists=True)
-    await client.patch_group(
-        id="product-integrity-reviewers", data={"members": [reviewer_id]}
-    )
+    data = JSONPatch([{"op": "add", "path": "/data/members/0", "value": reviewer_id}])
+    await client.patch_group(id="product-integrity-reviewers", changes=data)
     await upload_records(client, 5)
     await client.patch_collection(data={"status": "to-review"})
     await reviewer_client.patch_collection(id=cid, data={"status": "to-sign"})
@@ -404,13 +416,17 @@ async def test_signer_plugin_reviewer_verifications(
     auth: Tuple[str, str],
     reviewer_auth: Tuple[str, str],
 ):
-    cid = "product-integrity"
     client = make_client(auth)
     client_id = (await client.server_info())["user"]["id"]
     reviewer_client = make_client(reviewer_auth)
     reviewer_id = (await reviewer_client.server_info())["user"]["id"]
     await client.create_bucket(id="main-workspace", if_not_exists=True)
-    await client.create_collection(id=cid, bucket="main-workspace", if_not_exists=True)
+    await client.create_collection(
+        id="product-integrity", bucket="main-workspace", if_not_exists=True
+    )
+    await client.patch_group(
+        id="product-integrity-editors", data={"members": [client_id]}
+    )
     await client.patch_group(
         id="product-integrity-reviewers", data={"members": [client_id, reviewer_id]}
     )

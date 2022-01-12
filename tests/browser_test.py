@@ -2,6 +2,7 @@ from typing import Callable, Tuple
 
 import pytest
 from kinto_http import AsyncClient
+from kinto_http.patch_type import JSONPatch
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -37,12 +38,10 @@ async def test_review_signoff(
         permissions={"write": [editor_id, reviewer_id]},
         if_not_exists=True,
     )
-    await client.patch_group(
-        id="product-integrity-editors", data={"members": [editor_id]}
-    )
-    await client.patch_group(
-        id="product-integrity-reviewers", data={"members": [reviewer_id]}
-    )
+    data = JSONPatch([{"op": "add", "path": "/data/members/0", "value": editor_id}])
+    await client.patch_group(id="product-integrity-editors", changes=data)
+    data = JSONPatch([{"op": "add", "path": "/data/members/0", "value": reviewer_id}])
+    await client.patch_group(id="product-integrity-reviewers", changes=data)
     await client.create_record(
         bucket="main-workspace", collection="product-integrity", data={"testing": 123}
     )

@@ -1,8 +1,9 @@
 from typing import Callable, Tuple
+from urllib.parse import urljoin
 
 import pytest
 import requests
-from kinto_http import AsyncClient
+from kinto_http import AsyncClient, KintoException
 from pytest import FixtureRequest
 from requests.adapters import HTTPAdapter
 from selenium.webdriver.firefox.options import Options
@@ -136,8 +137,19 @@ def make_client(
 
 
 @pytest.fixture(autouse=True)
-def flush_server(server: str):
-    assert requests.post(f"{server}/__flush__")
+async def flush_default_collection(
+    make_client: Callable[[Tuple[str, str]], AsyncClient],
+    auth: Tuple[str, str],
+    source_bucket: str,
+    source_collection: str,
+):
+    client = make_client(auth)
+
+    try:
+        await client.delete_collection(id=source_collection, bucket=source_bucket)
+    except KintoException:
+        # nothing to do if not found
+        pass
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -167,9 +179,9 @@ def selenium(selenium: WebDriver) -> WebDriver:
 
 def create_user(request_session: requests.Session, server: str, auth: Tuple[str, str]):
     # check if user already exists before creating
-    r = request_session.get(f"{server}/", auth=auth)
+    r = request_session.get(server, auth=auth)
     if "user" not in r.json():
-        create_account_url = f"{server}/accounts/{auth[0]}"
+        create_account_url = urljoin(server, f"/accounts/{auth[0]}")
         assert request_session.put(
             create_account_url,
             json={"data": {"password": auth[1]}},
