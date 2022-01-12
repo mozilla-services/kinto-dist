@@ -116,7 +116,6 @@ jobs:
           POSTGRES_DB: testdb
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
-    working_directory: ~/kinto-dist
     steps:
       - checkout
       - restore_cache: *restore_deps_cache
