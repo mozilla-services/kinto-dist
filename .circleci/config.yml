@@ -125,6 +125,13 @@ workflows:
   version: 2
   main:
     jobs:
+      - lint_format
+      - integration_test:
+          requires:
+            - lint_format
+      - unit_test:
+          requires:
+            - lint_format
       - build_and_publish:
           requires:
             - unit_test
@@ -132,6 +139,3 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - integration_test
-      - unit_test
-      - lint_format
