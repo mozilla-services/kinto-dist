@@ -146,11 +146,7 @@ async def flush_default_collection(
     yield
     client = make_client(auth)
 
-    try:
-        await client.delete_collection(id=source_collection, bucket=source_bucket)
-    except KintoException:
-        # nothing to do if not found
-        pass
+    await client.delete_collection(id=source_collection, bucket=source_bucket, if_exists=True)
 
 
 @pytest.fixture(scope="session", autouse=True)
