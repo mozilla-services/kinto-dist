@@ -18,7 +18,8 @@ DEFAULT_REVIEWER_AUTH = "reviewer:pass"
 DEFAULT_BUCKET = "main-workspace"
 DEFAULT_COLLECTION = "product-integrity"
 
-ClientFactory = Callable[[Tuple[str, str]], AsyncClient]
+Auth = Tuple[str, str]
+ClientFactory = Callable[[Auth], AsyncClient]
 
 
 def pytest_addoption(parser):
@@ -72,17 +73,17 @@ def server(request) -> str:
 
 
 @pytest.fixture(scope="session")
-def auth(request) -> Tuple[str, str]:
+def auth(request) -> Auth:
     return tuple(request.config.getoption("--auth").split(":"))
 
 
 @pytest.fixture(scope="session")
-def editor_auth(request) -> Tuple[str, str]:
+def editor_auth(request) -> Auth:
     return tuple(request.config.getoption("--editor-auth").split(":"))
 
 
 @pytest.fixture(scope="session")
-def reviewer_auth(request) -> Tuple[str, str]:
+def reviewer_auth(request) -> Auth:
     return tuple(request.config.getoption("--reviewer-auth").split(":"))
 
 
@@ -116,7 +117,7 @@ def make_client(
         AsyncClient: AsyncClient
     """
 
-    def _make_client(auth: Tuple[str, str]) -> AsyncClient:
+    def _make_client(auth: Auth) -> AsyncClient:
         request_session = requests.Session()
         retries = Retry(
             total=5, backoff_factor=0.1, status_forcelist=[500, 502, 503, 504]
@@ -141,7 +142,7 @@ def make_client(
 @pytest.fixture(autouse=True)
 async def flush_default_collection(
     make_client: ClientFactory,
-    auth: Tuple[str, str],
+    auth: Auth,
     source_bucket: str,
     source_collection: str,
 ):
@@ -182,7 +183,7 @@ def selenium(selenium: WebDriver) -> WebDriver:
     return selenium
 
 
-def create_user(request_session: requests.Session, server: str, auth: Tuple[str, str]):
+def create_user(request_session: requests.Session, server: str, auth: Auth):
     # check if user already exists before creating
     r = request_session.get(server, auth=auth)
     if "user" not in r.json():

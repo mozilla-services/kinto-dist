@@ -1,5 +1,3 @@
-from typing import Tuple
-
 import pytest
 from kinto_http.patch_type import JSONPatch
 from selenium.common.exceptions import NoSuchElementException
@@ -7,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 
-from .conftest import ClientFactory
+from .conftest import Auth, ClientFactory
 
 
 pytestmark = pytest.mark.asyncio
@@ -17,9 +15,9 @@ async def test_review_signoff(
     base_url: str,
     selenium: WebDriver,
     make_client: ClientFactory,
-    auth: Tuple[str, str],
-    editor_auth: Tuple[str, str],
-    reviewer_auth: Tuple[str, str],
+    auth: Auth,
+    editor_auth: Auth,
+    reviewer_auth: Auth,
 ):
     client = make_client(auth)
     editor_client = make_client(editor_auth)
@@ -94,7 +92,7 @@ async def test_review_signoff(
     assert data.text == '{"testing":123}'
 
 
-def sign_in(selenium: WebDriver, auth: Tuple[str, str]):
+def sign_in(selenium: WebDriver, auth: Auth):
     # find and select Kinto Account Auth for login
     kinto_auth_radio_button: WebElement = selenium.find_element(
         By.XPATH, "//input[@value='accounts']"
