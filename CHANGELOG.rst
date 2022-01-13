@@ -22,7 +22,7 @@ the version control of each dependency.
 **Bug fixes**
 
 - Restore ``group_check_enabled`` field in ``"signer"`` capability for backward
-  compability with previous versions
+  compability with previous versions (#1962)
 
 **Internal Changes**
 
