@@ -1,12 +1,13 @@
-from typing import Callable, Tuple
+from typing import Tuple
 
 import pytest
-from kinto_http import AsyncClient
 from kinto_http.patch_type import JSONPatch
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
+
+from .conftest import ClientFactory
 
 
 pytestmark = pytest.mark.asyncio
@@ -15,7 +16,7 @@ pytestmark = pytest.mark.asyncio
 async def test_review_signoff(
     base_url: str,
     selenium: WebDriver,
-    make_client: Callable[[Tuple[str, str]], AsyncClient],
+    make_client: ClientFactory,
     auth: Tuple[str, str],
     editor_auth: Tuple[str, str],
     reviewer_auth: Tuple[str, str],

@@ -18,6 +18,8 @@ DEFAULT_REVIEWER_AUTH = "reviewer:pass"
 DEFAULT_BUCKET = "main-workspace"
 DEFAULT_COLLECTION = "product-integrity"
 
+ClientFactory = Callable[[Tuple[str, str]], AsyncClient]
+
 
 def pytest_addoption(parser):
     parser.addoption(
@@ -102,7 +104,7 @@ def keep_existing(request) -> bool:
 @pytest.fixture
 def make_client(
     server: str, source_bucket: str, source_collection: str
-) -> Callable[[Tuple[str, str]], AsyncClient]:
+) -> ClientFactory:
     """Factory as fixture for creating a Kinto AsyncClient used for tests.
 
     Args:
@@ -138,7 +140,7 @@ def make_client(
 
 @pytest.fixture(autouse=True)
 async def flush_default_collection(
-    make_client: Callable[[Tuple[str, str]], AsyncClient],
+    make_client: ClientFactory,
     auth: Tuple[str, str],
     source_bucket: str,
     source_collection: str,
@@ -146,7 +148,13 @@ async def flush_default_collection(
     yield
     client = make_client(auth)
 
-    await client.delete_collection(id=source_collection, bucket=source_bucket, if_exists=True)
+    try:
+        await client.delete_collection(
+            id=source_collection, bucket=source_bucket, if_exists=True
+        )
+    except KintoException:
+        # in the case where a user doesn't have permissions to delete
+        pass
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -178,7 +186,7 @@ def create_user(request_session: requests.Session, server: str, auth: Tuple[str,
     # check if user already exists before creating
     r = request_session.get(server, auth=auth)
     if "user" not in r.json():
-        create_account_url = urljoin(server, f"/accounts/{auth[0]}")
+        create_account_url = urljoin(f"{server}/", f"accounts/{auth[0]}")
         assert request_session.put(
             create_account_url,
             json={"data": {"password": auth[1]}},
