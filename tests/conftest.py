@@ -143,6 +143,7 @@ async def flush_default_collection(
     source_bucket: str,
     source_collection: str,
 ):
+    yield
     client = make_client(auth)
 
     try:
