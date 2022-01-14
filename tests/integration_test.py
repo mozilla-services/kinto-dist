@@ -2,7 +2,6 @@ import os
 import random
 from string import hexdigits
 from typing import Dict, List
-from urllib.parse import urljoin
 
 import pytest
 import requests
@@ -15,8 +14,7 @@ from .conftest import Auth, ClientFactory
 
 
 def test_heartbeat(server: str):
-    hb_url = urljoin(server, "/__heartbeat__")
-    resp = requests.get(hb_url)
+    resp = requests.get(f"{server}/__heartbeat__")
     resp.raise_for_status()
 
 
@@ -133,16 +131,7 @@ async def test_attachment_plugin_new_record(
 
     with open("kinto-logo.svg", "rb") as attachment:
         assert requests.post(
-            urljoin(
-                server,
-                await client.get_endpoint(
-                    "record",
-                    bucket="main-workspace",
-                    collection="product-integrity",
-                    id="logo",
-                )
-                + "/attachment",
-            ),
+            f"{server}{await client.get_endpoint('record', bucket='main-workspace', collection='product-integrity', id='logo')}/attachment",
             files={"attachment": attachment},
             auth=client.session.auth,
         ), "Issue creating a new record with an attachment"
@@ -176,16 +165,7 @@ async def test_attachment_plugin_existing_record(
 
     with open("kinto-logo.svg", "rb") as attachment:
         assert requests.post(
-            urljoin(
-                server,
-                await client.get_endpoint(
-                    "record",
-                    bucket="main-workspace",
-                    collection="product-integrity",
-                    id="logo",
-                )
-                + "/attachment",
-            ),
+            f"{server}{await client.get_endpoint('record', bucket='main-workspace', collection='product-integrity', id='logo')}/attachment",
             files={"attachment": attachment},
             auth=client.session.auth,
         ), "Issue updating an existing record to include an attachment"

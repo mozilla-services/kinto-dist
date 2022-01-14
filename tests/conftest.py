@@ -1,5 +1,4 @@
 from typing import Callable, Tuple
-from urllib.parse import urljoin
 
 import pytest
 import requests
@@ -187,8 +186,7 @@ def create_user(request_session: requests.Session, server: str, auth: Auth):
     # check if user already exists before creating
     r = request_session.get(server, auth=auth)
     if "user" not in r.json():
-        create_account_url = urljoin(f"{server}/", f"accounts/{auth[0]}")
         assert request_session.put(
-            create_account_url,
+            f"{server}/accounts/{auth[0]}",
             json={"data": {"password": auth[1]}},
         )
