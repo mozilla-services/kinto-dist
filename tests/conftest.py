@@ -152,9 +152,9 @@ async def flush_default_collection(
         await client.delete_collection(
             id=source_collection, bucket=source_bucket, if_exists=True
         )
-    except KintoException:
+    except KintoException as e:
         # in the case where a user doesn't have permissions to delete
-        pass
+        print(e)
 
 
 @pytest.fixture(scope="session", autouse=True)
