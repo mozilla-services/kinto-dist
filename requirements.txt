@@ -109,9 +109,9 @@ dockerflow==2021.7.0 \
     --hash=sha256:9f309fdf72a897290878f97cc30fd4bb3609b13cf74bfce4268f5e368e466070 \
     --hash=sha256:e47bbca06c261a5c3d97e5e0990aa71dafed41b723d0e0009c32e1d2f9b92db4
     # via kinto
-ec2-metadata==2.6.0 \
-    --hash=sha256:9f73e6298e81508b4f0108ea0cd14ac7663fd5be1cea9c70b7f02d3f14ad3e14 \
-    --hash=sha256:d7058cf6ffa40e88362a924a71305e275c699ce6767ad86518cf613a1949e3c4
+ec2-metadata==2.7.0 \
+    --hash=sha256:422dcf54543b500eec78ffa0c5524c6a1133440cc905b344e9fcbe176266fbb6 \
+    --hash=sha256:6e41d506cfcd43aa07d5ab2f9a77cb585141ffafa96f588027060722115ad5b0
     # via -r requirements.in
 ecdsa==0.17.0 \
     --hash=sha256:5cf31d5b33743abe0dfc28999036c849a69d548f994b535e527ee3cb7f3ef676 \
