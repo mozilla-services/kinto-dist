@@ -5,13 +5,21 @@ This document describes changes between each past release as well as
 the version control of each dependency.
 
 
+27.0.2 (unreleased)
+===================
+
+**Bug Fixes**
+
+- Add missing ``Last-Modified`` response header in ``/changeset`` responses
+
+
 27.0.1 (2022-01-13)
 ===================
 
 **Bug fixes**
 
 - Restore ``group_check_enabled`` field in ``"signer"`` capability for backward
-  compability with previous versions
+  compability with previous versions (#1962)
 
 **Internal Changes**
 
