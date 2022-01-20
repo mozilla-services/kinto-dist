@@ -120,7 +120,7 @@ jobs:
       - checkout
       - run:
           name: Version information
-          command: export PYTHON_VERSION=$(python --version)
+          command: PYTHON_VERSION=$(python --version)
       - restore_cache: *restore_deps_cache
       - run:
           name: Run kinto_remote_settings plugin unit tests
@@ -133,7 +133,9 @@ jobs:
       - checkout
       - run:
           name: Version information
-          command: export PYTHON_VERSION=$(python --version)
+          command: |
+            .venv/bin/python -m pip cache dir
+            PYTHON_VERSION=$(python --version)
       - restore_cache: *restore_deps_cache
       - run:
           name: Check linting and formatting
