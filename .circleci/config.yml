@@ -14,7 +14,7 @@ aliases:
       name: Saving Python dependency cache
       key: v1-requirements-{{ checksum "requirements.txt" }}-{{ checksum "requirements-dev.txt" }}
       paths:
-        - .venv
+        - /home/ubuntu/.cache/pip
 jobs:
   build_and_publish:
     machine:
