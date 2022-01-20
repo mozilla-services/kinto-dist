@@ -14,7 +14,8 @@ aliases:
       name: Saving Python dependency cache
       key: v1-requirements-{{ .Environment.PYTHON_VERSION }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements-dev.txt" }}
       paths:
-        - /home/ubuntu/.cache/pip
+        - /home/circleci/.cache/pip
+
 jobs:
   build_and_publish:
     machine:
@@ -137,9 +138,7 @@ jobs:
       - restore_cache: *restore_deps_cache
       - run:
           name: Check linting and formatting
-          command: |
-            make lint
-            .venv/bin/python -m pip cache dir
+          command: make lint
       - save_cache: *save_deps_cache
 
 workflows:
