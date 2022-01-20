@@ -8,11 +8,11 @@ version: 2.1
 aliases:
   - &restore_deps_cache
       name: Restoring Python dependency cache
-      key: v1-requirements-{{ .Environment.PYTHON_VERSION }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements-dev.txt" }}
+      key: v2-requirements-{{ checksum "requirements.txt" }}-{{ checksum "requirements-dev.txt" }}
 
   - &save_deps_cache
       name: Saving Python dependency cache
-      key: v1-requirements-{{ .Environment.PYTHON_VERSION }}-{{ checksum "requirements.txt" }}-{{ checksum "requirements-dev.txt" }}
+      key: v2-requirements-{{ checksum "requirements.txt" }}-{{ checksum "requirements-dev.txt" }}
       paths:
         - /home/circleci/.cache/pip
 
@@ -119,9 +119,6 @@ jobs:
           POSTGRES_PASSWORD: postgres
     steps:
       - checkout
-      - run:
-          name: Version information
-          command: PYTHON_VERSION=$(python --version)
       - restore_cache: *restore_deps_cache
       - run:
           name: Run kinto_remote_settings plugin unit tests
@@ -132,9 +129,6 @@ jobs:
       - image: cimg/python:3.9
     steps:
       - checkout
-      - run:
-          name: Version information
-          command: PYTHON_VERSION=$(python --version)
       - restore_cache: *restore_deps_cache
       - run:
           name: Check linting and formatting
