@@ -15,10 +15,7 @@ services:
     image: memcached:1
 
   autograph:
-    # Autograph is stuck at 2.7.0 because of mozilla-services/autograph#344
-    image: mozilla/autograph:2.7.0
-    volumes:
-      - ${PWD}/autograph/autograph.yaml:/app/autograph.yaml
+    image: mozilla/autograph
 
   selenium:
     image: selenium/standalone-firefox
