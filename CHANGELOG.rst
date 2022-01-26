@@ -5,7 +5,7 @@ This document describes changes between each past release as well as
 the version control of each dependency.
 
 
-27.0.2 (unreleased)
+27.0.2 (2022-01-26)
 ===================
 
 **Bug Fixes**
